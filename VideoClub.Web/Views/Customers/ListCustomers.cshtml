@@ -1,0 +1,51 @@
+﻿@model List<VideoClub.Core.Interfaces.Helpers.CustomerWReservationCount>
+
+<h2>Customers List</h2>
+
+@using (Html.BeginForm("ListCustomers", "Customers", FormMethod.Post))
+{
+    <table class="table">
+        <tr>
+            <th>
+                UserName
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Surname
+            </th>
+            <th>
+                Active Reservations
+            </th>
+            <th>
+                View Reservations
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.customer.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.customer.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.customer.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.activeReservations)
+                </td>
+                <td>
+                    <button type="submit" name="action" value="Reservations:@item.customer.Id" class="btn btn-dark">Reservations</button>
+                </td>
+                <td> 
+                    <button type="submit" name="action" value="Create:@item.customer.Id" class="btn btn-dark">Create a Reservation</button>
+                </td>
+            </tr>
+        }
+
+    </table>
+}

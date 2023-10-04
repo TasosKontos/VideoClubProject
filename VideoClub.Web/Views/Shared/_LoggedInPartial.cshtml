@@ -1,0 +1,6 @@
+﻿@using Microsoft.AspNet.Identity
+
+<div class="user-logout">
+    <span class="text-white">@User.Identity.GetUserName()</span>
+    <a href="@Url.Action("LogOut", "Auth")" class="btn btn-danger">LogOut</a>
+</div>

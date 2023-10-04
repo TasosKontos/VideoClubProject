@@ -1,0 +1,43 @@
+﻿@model IEnumerable<VideoClub.Core.Entities.Reservation>
+
+@{
+    ViewBag.Title = "ListReservationsForCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reservations for @Model.First().ApplicationUser.UserName  </h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Movie Title
+        </th>
+        <th>
+            Reservation Date
+        </th>
+        <th>
+            Return Date
+        </th>
+        <th>
+            Comments
+        </th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MovieCopy.Movie.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.From)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.To)  
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments) 
+        </td>
+    </tr>
+}
+</table>

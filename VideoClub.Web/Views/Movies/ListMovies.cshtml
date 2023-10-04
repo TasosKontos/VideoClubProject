@@ -1,0 +1,82 @@
+﻿@model X.PagedList.IPagedList<VideoClub.Core.Interfaces.Helpers.MovieWCount>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+<h2>All Movies</h2>
+
+@using (Html.BeginForm("ListMovies", "Movies", FormMethod.Get))
+{
+    <p>
+        Search by Genre:
+        <select asp-for="SelectedGenre" class="form-control">
+            <option value="">Select Genre</option>
+            @foreach (var genre in Enum.GetValues(typeof(VideoClub.Core.Enumerations.Genre)))
+            {
+                <option value="@genre">@genre</option>
+            }
+        </select>
+    </p>
+    <p>
+        Search by Title: @Html.TextBox("search", null, new { @class = "form-control" })
+        <input type="submit" value="Search" />
+    </p>
+}
+
+@using (Html.BeginForm("ListMovies", "Movies", FormMethod.Post))
+{
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Genre
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Available Copy Count
+            </th>
+            @if ((User.Identity.IsAuthenticated && User.IsInRole("Admin")))
+            {
+                <th>
+                    Create a Reservation
+                </th>
+            }
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.movie.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.movie.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.availableCopyCount)
+                </td>
+                @if ((User.Identity.IsAuthenticated && User.IsInRole("Admin")))
+                {
+                    <td>
+                        @if (item.availableCopyCount > 0)
+                        {
+                            <button type="submit" name="movieId" value="@item.movie.Id" class="btn btn-dark">Reserve</button>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+
+    </table>
+}
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("ListMovies", new {page}))
