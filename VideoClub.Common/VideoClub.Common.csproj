@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\VideoClub.Core\VideoClub.Core.csproj" />
     <ProjectReference Include="..\VideoClub.Infrastructure\VideoClub.Infrastructure.csproj" />
   </ItemGroup>

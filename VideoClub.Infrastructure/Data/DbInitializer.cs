@@ -53,6 +53,15 @@ namespace VideoClub.Infrastructure.Data
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, "User");
+                    Console.WriteLine("Sucess!!!!!!!!!");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        // Log or handle each error as needed
+                        Console.WriteLine($"Error: {error.Code}, Description: {error.Description}");
+                    }
                 }
 
                 user.Reservations.Add(reservations[0]);

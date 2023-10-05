@@ -12,6 +12,7 @@ namespace VideoClub.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<IdentityUser> _singInManager;
 
         public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> rolemanager)
         {
@@ -48,7 +49,7 @@ namespace VideoClub.Web.Controllers
                 return View();
             }
 
-            var user = await _userManager.FindAsync(model.Email, model.Password);
+            var user = await _userManager.FindByNameAsync(model.Email);
 
             if (user != null)
             {
@@ -61,9 +62,9 @@ namespace VideoClub.Web.Controllers
             return View();
         }
 
-        public ActionResult LogOut()
+        public async Task<ActionResult> LogOut()
         {
-            GetAuthenticationManager().SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            await _singInManager.SignOutAsync();
             return RedirectToAction("index", "home");
         }
 
@@ -104,33 +105,15 @@ namespace VideoClub.Web.Controllers
 
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError("", error);
+                ModelState.AddModelError("", error.Description);
             }
 
             return View();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && _userManager != null)
-            {
-                _userManager.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         private async Task SignIn(ApplicationUser user)
         {
-            var identity = await _userManager.CreateIdentityAsync(
-                user, DefaultAuthenticationTypes.ApplicationCookie);
-
-            GetAuthenticationManager().SignIn(identity);
-        }
-
-        private IAuthenticationManager GetAuthenticationManager()
-        {
-            var ctx = Request.GetOwinContext();
-            return ctx.Authentication;
+            await _singInManager.SignInAsync(user, isPersistent: false);
         }
     }
 }
