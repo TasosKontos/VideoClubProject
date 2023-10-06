@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VideoClub.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using VideoClub.Infrastructure.Data;
 namespace VideoClub.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231006074013_lalau")]
+    partial class lalau
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,15 +53,15 @@ namespace VideoClub.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6614bb4c-0a01-452f-8182-a4d68d2d171e",
-                            ConcurrencyStamp = "7b0f2de2-0390-4215-9645-1a8560c02065",
+                            Id = "4abccc0e-9589-472a-87d4-249152d7151b",
+                            ConcurrencyStamp = "852a951b-3e61-4d4b-8786-4123c3f5cd7d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "e60a4ef4-ceea-4a66-b73b-266587309e07",
-                            ConcurrencyStamp = "0b4b983a-ff73-48fd-99ac-7f057b39ad48",
+                            Id = "3a06d454-fe5e-49c8-b7ee-97d60bb03cad",
+                            ConcurrencyStamp = "0208f08a-9ad1-459b-80c0-20afcef2a30d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -295,7 +297,6 @@ namespace VideoClub.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Comments")
@@ -304,7 +305,7 @@ namespace VideoClub.Infrastructure.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MovieCopyId")
+                    b.Property<int?>("MovieCopyId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("To")
@@ -385,15 +386,11 @@ namespace VideoClub.Infrastructure.Migrations
                 {
                     b.HasOne("VideoClub.Core.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Reservations")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("VideoClub.Core.Entities.MovieCopy", "MovieCopy")
                         .WithMany("Reservations")
-                        .HasForeignKey("MovieCopyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MovieCopyId");
 
                     b.Navigation("ApplicationUser");
 

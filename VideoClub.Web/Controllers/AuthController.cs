@@ -12,12 +12,13 @@ namespace VideoClub.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<IdentityUser> _singInManager;
+        private readonly SignInManager<ApplicationUser> _singInManager;
 
-        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> rolemanager)
+        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> rolemanager, SignInManager<ApplicationUser> signInManager)
         {
-            this._userManager = userManager;
-            this._roleManager = rolemanager;
+            _userManager = userManager;
+            _roleManager = rolemanager;
+            _singInManager = signInManager;
         }
 
         private string GetRedirectUrl(string returnUrl)
@@ -53,8 +54,11 @@ namespace VideoClub.Web.Controllers
 
             if (user != null)
             {
-                await SignIn(user);
-                return Redirect(GetRedirectUrl(model.ReturnUrl));
+                var signInResult = await SignIn(user, model.Password);
+                if (signInResult)
+                {
+                    return Redirect(GetRedirectUrl(model.ReturnUrl));
+                }
             }
 
             // user authN failed
@@ -99,8 +103,11 @@ namespace VideoClub.Web.Controllers
 
             if (result.Succeeded)
             {
-                await SignIn(user);
-                return RedirectToAction("index", "home");
+                var signInResult = await SignIn(user, model.Password);
+                if (signInResult)
+                {
+                    return RedirectToAction("index", "home");
+                }
             }
 
             foreach (var error in result.Errors)
@@ -111,9 +118,15 @@ namespace VideoClub.Web.Controllers
             return View();
         }
 
-        private async Task SignIn(ApplicationUser user)
+        private async Task<bool> SignIn(ApplicationUser user, string password)
         {
-            await _singInManager.SignInAsync(user, isPersistent: false);
+            var result = await _singInManager.CheckPasswordSignInAsync(user, password, true);
+
+            if (result.Succeeded) {
+                await _singInManager.SignInAsync(user, isPersistent: false);
+                return true;
+            }
+            return result.Succeeded;
         }
     }
 }

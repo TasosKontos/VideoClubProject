@@ -4,31 +4,36 @@ using VideoClub.Common.Services;
 using VideoClub.Core.Entities;
 using VideoClub.Core.Interfaces;
 using VideoClub.Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.json");
-
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
-//var connectionString = builder.Configuration.GetConnectionString("Server=(localdb)\\mssqllocaldb;Database=VideoClubDB;Trusted_Connection=True;");
-var connectionString = "Server=(localdb)\\mssqllocaldb;Database=VideoClubDB;Trusted_Connection=True;";
+var connectionString = builder.Configuration.GetConnectionString("VideoClubDbContext");
+//var connectionString = "Server=(localdb)\\mssqllocaldb;Database=VideoClubDB;Trusted_Connection=True;";
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-//builder.Services.AddDefaultIdentity<IdentityUser>()
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddIdentityCore < ApplicationUser>()
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
-//builder.Services.AddRazorPages();
-builder.Services.AddIdentityCore<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "Auth/LogIn";
+    });
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<SignInManager<ApplicationUser>>();
 
 var app = builder.Build();
 
@@ -52,10 +57,12 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.MapRazorPages();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 var scope = app.Services.CreateScope();
 var unitOfWork = scope.ServiceProvider.GetService<UnitOfWork>();

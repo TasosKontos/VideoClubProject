@@ -12,8 +12,8 @@ using VideoClub.Infrastructure.Data;
 namespace VideoClub.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231005114014_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20231006072935_lalal")]
+    partial class lalal
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,15 +53,15 @@ namespace VideoClub.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b1167164-6a24-4c36-9a81-e9e6ff263c79",
-                            ConcurrencyStamp = "ced660c6-8d5c-40be-ab52-806bf65e7876",
+                            Id = "9afac448-25f7-4189-acff-0ac6f47dde28",
+                            ConcurrencyStamp = "56c61a01-01b3-4b21-848c-9741be840132",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "0501d920-8ba0-4b9b-ae57-ce8954d15a50",
-                            ConcurrencyStamp = "7dff02b1-0700-45f0-b30a-a54cf3edf92b",
+                            Id = "d8a80ab6-2524-487a-a76b-cbfb4cf29359",
+                            ConcurrencyStamp = "f6e3501b-77a5-40d2-86ef-a10d2bd4beed",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -120,12 +120,10 @@ namespace VideoClub.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -162,12 +160,10 @@ namespace VideoClub.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

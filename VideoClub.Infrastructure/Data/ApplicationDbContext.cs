@@ -26,5 +26,6 @@ namespace VideoClub.Infrastructure.Data
                     new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" }
                 );
         }
+
     }
 }

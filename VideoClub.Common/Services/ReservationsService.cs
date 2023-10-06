@@ -31,13 +31,25 @@ namespace VideoClub.Common.Services
                                select r;
 
             reservations = reservations.Where(r => (r.To == null || r.To > DateTime.Now));
-
-            return reservations.ToList();
+            var reservationsList = reservations.ToList();
+            foreach (var reservation in reservationsList)
+            {
+                _dbContext.Entry(reservation).Reference(r => r.ApplicationUser).Load();
+                _dbContext.Entry(reservation).Reference(r=>r.MovieCopy).Load();
+                _dbContext.Entry(reservation.MovieCopy).Reference(mc=>mc.Movie).Load();
+            }
+            return reservationsList;
         }
 
         public IEnumerable<Reservation> GetReservations()
         {
             var reservations = _dbContext.Reservations.AsEnumerable();
+            foreach (var reservation in reservations)
+            {
+                _dbContext.Entry(reservation).Reference(r => r.ApplicationUser).Load();
+                _dbContext.Entry(reservation).Reference(r => r.MovieCopy).Load();
+                _dbContext.Entry(reservation.MovieCopy).Reference(mc => mc.Movie).Load();
+            }
             return reservations;
         }
     }

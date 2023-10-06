@@ -12,8 +12,8 @@ using VideoClub.Infrastructure.Data;
 namespace VideoClub.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231005125639_InitialCreate4")]
-    partial class InitialCreate4
+    [Migration("20231006081132_lalai")]
+    partial class lalai
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,15 +53,15 @@ namespace VideoClub.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b190f98c-6520-49d0-a1c4-6648653a4750",
-                            ConcurrencyStamp = "d001d365-1e69-4059-a6fc-02386ae34c98",
+                            Id = "03e6d13b-3206-4090-a160-392a89560efe",
+                            ConcurrencyStamp = "a51c3a87-8b8f-480d-ba26-48e250bdc577",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "a03ee0f9-07f4-4067-8a64-536598eddf37",
-                            ConcurrencyStamp = "de9a5731-2bd2-4e63-9ec2-124952162d51",
+                            Id = "d5266e77-e514-4880-b020-9cdcf566b61b",
+                            ConcurrencyStamp = "e34de5e9-b1d4-45c3-a796-0500dae5bd96",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -297,6 +297,7 @@ namespace VideoClub.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Comments")
@@ -305,7 +306,7 @@ namespace VideoClub.Infrastructure.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MovieCopyId")
+                    b.Property<int>("MovieCopyId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("To")
@@ -386,11 +387,15 @@ namespace VideoClub.Infrastructure.Migrations
                 {
                     b.HasOne("VideoClub.Core.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Reservations")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VideoClub.Core.Entities.MovieCopy", "MovieCopy")
                         .WithMany("Reservations")
-                        .HasForeignKey("MovieCopyId");
+                        .HasForeignKey("MovieCopyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUser");
 

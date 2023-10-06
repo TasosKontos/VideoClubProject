@@ -1,13 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VideoClub.Core.Entities
 {
     public class MovieCopy
     {
-        [Required]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        public virtual Movie? Movie { get; set; }
+        public int MovieId { get; set; }
+        [ForeignKey("MovieId")]
+        public Movie Movie { get; set; } = null!;
         public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }

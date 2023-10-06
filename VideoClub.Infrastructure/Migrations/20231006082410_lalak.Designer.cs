@@ -12,8 +12,8 @@ using VideoClub.Infrastructure.Data;
 namespace VideoClub.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231005120326_InitialCreate1")]
-    partial class InitialCreate1
+    [Migration("20231006082410_lalak")]
+    partial class lalak
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,15 +53,15 @@ namespace VideoClub.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "93a27bde-c22a-47f4-b10c-8f5909a50359",
-                            ConcurrencyStamp = "39c475fe-fef9-4910-aecf-eb3a50362ccc",
+                            Id = "ff9840c3-8301-48ba-9aef-b7dca56a30c9",
+                            ConcurrencyStamp = "427873ac-b414-4b50-a0b6-72ba26f35d2a",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "3d355639-0f35-4ec2-b94c-e04b04a63e6e",
-                            ConcurrencyStamp = "c5055e84-dff2-4748-81d8-e2b44b7cf820",
+                            Id = "64927ec0-d564-434e-9536-1c5ad50533c4",
+                            ConcurrencyStamp = "86346432-b4fe-4230-8fff-61d4dc2630bf",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -120,12 +120,10 @@ namespace VideoClub.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -162,12 +160,10 @@ namespace VideoClub.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -301,6 +297,7 @@ namespace VideoClub.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Comments")
@@ -309,7 +306,7 @@ namespace VideoClub.Infrastructure.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MovieCopyId")
+                    b.Property<int>("MovieCopyId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("To")
@@ -390,11 +387,15 @@ namespace VideoClub.Infrastructure.Migrations
                 {
                     b.HasOne("VideoClub.Core.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Reservations")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VideoClub.Core.Entities.MovieCopy", "MovieCopy")
                         .WithMany("Reservations")
-                        .HasForeignKey("MovieCopyId");
+                        .HasForeignKey("MovieCopyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUser");
 

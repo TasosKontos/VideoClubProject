@@ -1,12 +1,23 @@
-﻿namespace VideoClub.Core.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace VideoClub.Core.Entities
 {
     public class Reservation
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime From { get; set; }
         public DateTime? To { get; set; }
         public String? Comments { get; set; }
-        public virtual ApplicationUser? ApplicationUser { get; set; }
-        public virtual MovieCopy? MovieCopy { get; set; }
+        [Required]
+        public string? ApplicationUserId { get; set; }
+        [ForeignKey("ApplicationUserId")]
+        public ApplicationUser ApplicationUser { get; set; } = null!;
+        [Required]
+        public int MovieCopyId { get; set; }
+        [ForeignKey("MovieCopyId")]
+        public MovieCopy MovieCopy { get; set; } = null!;
     }
 }
