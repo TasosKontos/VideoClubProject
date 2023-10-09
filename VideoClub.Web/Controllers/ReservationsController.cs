@@ -28,22 +28,24 @@ namespace VideoClub.Web.Controllers
             var movie = _unitOfWork.Movie.FindMovieById(movieId);
 
             //Tuple<Movie, MovieCopy> model = new Tuple<Movie, MovieCopy>(movie, copy);
-            var model = new Reservation();
-            model.MovieCopy = copy;
+            var model = new ReservationAdminViewModel();
+            model.MovieId = movieId;
+            model.MovieCopyId = copy.Id;
             model.From = DateTime.Now;
             model.To = DateTime.Now.AddDays(7);
+            //model.Comments = "";
+            //model.Username = "";
             TempData["Movie Title"] = movie.Title;
-            TempData["Copy"] = model.MovieCopy;
 
             return View(model);
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> CreateReservationAdmin(Reservation reservation)
+        public async Task<ActionResult> CreateReservationAdmin(ReservationAdminViewModel reservation)
         { 
 
-            var user = await  _userManager.FindByNameAsync(reservation.ApplicationUser.UserName ?? "");
+            var user = await  _userManager.FindByNameAsync(reservation.Username ?? "");
 
             if (user == null)
             {
@@ -52,11 +54,16 @@ namespace VideoClub.Web.Controllers
 
             var userInContext = _unitOfWork.User.GetUserByUsername(user.Id);
 
-            reservation.ApplicationUser = userInContext;
+            var res = new Reservation();
 
-            reservation.MovieCopy = _unitOfWork.Copy.GetMovieCopyById(reservation.MovieCopy.Id);
+            res.ApplicationUser = userInContext;
 
-            _unitOfWork.Reservation.AddReservation(reservation);
+            res.MovieCopy = _unitOfWork.Copy.GetMovieCopyById(reservation.MovieCopyId);
+            res.From = reservation.From;
+            res.To = reservation.To;
+            res.Comments = reservation.Comments;
+
+            _unitOfWork.Reservation.AddReservation(res);
 
             return RedirectToAction("ListMovies", "Movies");
         }

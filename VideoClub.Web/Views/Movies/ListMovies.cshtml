@@ -8,7 +8,7 @@
 {
     <p>
         Search by Genre:
-        <select asp-for="SelectedGenre" class="form-control">
+        <select asp-for="SelectedGenre" class="form-control" name="genre">
             <option value="">Select Genre</option>
             @foreach (var genre in Enum.GetValues(typeof(VideoClub.Core.Enumerations.Genre)))
             {

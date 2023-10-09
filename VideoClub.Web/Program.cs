@@ -27,8 +27,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "Auth/LogIn";
+        options.LoginPath = "/Auth/LogIn";
     });
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Auth/LogIn";
+});
 
 builder.Services.AddAuthorization();
 

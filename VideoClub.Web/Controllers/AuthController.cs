@@ -51,7 +51,7 @@ namespace VideoClub.Web.Controllers
             }
 
             var user = await _userManager.FindByNameAsync(model.Email);
-
+            if (model.Password == null) model.Password = "";
             if (user != null)
             {
                 var signInResult = await SignIn(user, model.Password);
