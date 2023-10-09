@@ -52,5 +52,12 @@ namespace VideoClub.Common.Services
             }
             return reservations;
         }
+
+        public void ReturnMovie(int reservationId)
+        {
+            var reservation = _dbContext.Reservations.Find(reservationId);
+            reservation.To = DateTime.Now;
+            _dbContext.SaveChanges();
+        }
     }
 }

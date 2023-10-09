@@ -115,6 +115,16 @@ namespace VideoClub.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public IActionResult ReturnMovie(int reservationId)
+        {
+            _unitOfWork.Reservation.ReturnMovie(reservationId);
+
+            var result = new { success = true, message = "Successfully returned movie!" };
+            return Json(result);
+        }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult ListReservations()
         {
             var model = _unitOfWork.Reservation.GetReservations();

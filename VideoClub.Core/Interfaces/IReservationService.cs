@@ -12,5 +12,6 @@ namespace VideoClub.Core.Interfaces
         void AddReservation(Reservation reservation);
         IEnumerable<Reservation> GetActiveReservations();
         IEnumerable<Reservation> GetReservations();
+        void ReturnMovie(int reservationId);
     }
 }

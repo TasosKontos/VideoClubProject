@@ -27,6 +27,9 @@
         <th>
             Comments
         </th>
+        <th>
+            Return
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -49,7 +52,55 @@
         <td>
             @Html.DisplayFor(modelItem => item.Comments)
         </td>
+        <td>
+                <button class="return-button btn btn-dark" data-reservation-id="@item.Id">Return</button>
+        </td>
     </tr>
 }
 
 </table>
+
+<div id="returnSuccessMessage" style="display: none;">
+    The movie has been successfully returned!
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    $(document).ready(function () {
+        // Handle the click event of the "Return" buttons
+        $('.return-button').click(function () {
+            var reservationId = $(this).data('reservation-id');
+            var $button = $(this);
+
+            // Send the Ajax request to return the movie
+            $.ajax({
+                type: 'POST',
+                url: '/Reservations/ReturnMovie', // Replace with the actual URL of your Controller
+                data: { reservationId: reservationId },
+                success: function (response) {
+                    if (response.success) {
+                        // Display a success popup
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'The movie has been successfully returned!',
+                        }).then(function () {
+                            // Optionally, remove the row from the table
+                            $button.closest('tr').remove();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'There was an issue with returning the movie.',
+                        });
+                    }
+                },
+                error: function () {
+                    alert('There was an issue with returning the movie.');
+                }
+            });
+        });
+    });
+</script>
