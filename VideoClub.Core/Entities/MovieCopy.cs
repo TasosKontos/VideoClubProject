@@ -12,6 +12,6 @@ namespace VideoClub.Core.Entities
         public int MovieId { get; set; }
         [ForeignKey("MovieId")]
         public Movie Movie { get; set; } = null!;
-        public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public virtual ICollection<MovieRent> MovieRents { get; set; } = new List<MovieRent>();
     }
 }

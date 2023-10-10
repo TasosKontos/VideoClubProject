@@ -40,7 +40,7 @@ builder.Services.AddAuthorization();
 // builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICopiesService, CopiesService>();
-builder.Services.AddScoped<IReservationService, ReservationsService>();
+builder.Services.AddScoped<IRentsService, RentsService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
 builder.Services.AddScoped<SignInManager<ApplicationUser>>();

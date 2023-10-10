@@ -2,7 +2,7 @@
 
 namespace VideoClub.Web.Models
 {
-    public class ReservationAdminViewModel
+    public class MovieRentAdminViewModel
     {
         public DateTime From {  get; set; }
         public DateTime To { get; set; }

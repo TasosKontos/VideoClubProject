@@ -12,8 +12,8 @@ using VideoClub.Infrastructure.Data;
 namespace VideoClub.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231006072935_lalal")]
-    partial class lalal
+    [Migration("20231010103021_xdxd")]
+    partial class xdxd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,15 +53,15 @@ namespace VideoClub.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9afac448-25f7-4189-acff-0ac6f47dde28",
-                            ConcurrencyStamp = "56c61a01-01b3-4b21-848c-9741be840132",
+                            Id = "74c920c1-e56c-44ca-a9f7-98f8172ec49d",
+                            ConcurrencyStamp = "2c94d06b-83c0-4754-90d0-8c4c44fe981b",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "d8a80ab6-2524-487a-a76b-cbfb4cf29359",
-                            ConcurrencyStamp = "f6e3501b-77a5-40d2-86ef-a10d2bd4beed",
+                            Id = "3bde8e5d-96bb-45d3-b884-1dd9792f8321",
+                            ConcurrencyStamp = "4ab4f0aa-2d2e-476b-a882-6a93b3711081",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -288,7 +288,7 @@ namespace VideoClub.Infrastructure.Migrations
                     b.ToTable("MovieCopies");
                 });
 
-            modelBuilder.Entity("VideoClub.Core.Entities.Reservation", b =>
+            modelBuilder.Entity("VideoClub.Core.Entities.MovieRent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -297,6 +297,7 @@ namespace VideoClub.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Comments")
@@ -305,7 +306,7 @@ namespace VideoClub.Infrastructure.Migrations
                     b.Property<DateTime>("From")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MovieCopyId")
+                    b.Property<int>("MovieCopyId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("To")
@@ -317,7 +318,7 @@ namespace VideoClub.Infrastructure.Migrations
 
                     b.HasIndex("MovieCopyId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("MovieRents");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -382,15 +383,19 @@ namespace VideoClub.Infrastructure.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("VideoClub.Core.Entities.Reservation", b =>
+            modelBuilder.Entity("VideoClub.Core.Entities.MovieRent", b =>
                 {
                     b.HasOne("VideoClub.Core.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany("Reservations")
-                        .HasForeignKey("ApplicationUserId");
+                        .WithMany("MovieRents")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VideoClub.Core.Entities.MovieCopy", "MovieCopy")
-                        .WithMany("Reservations")
-                        .HasForeignKey("MovieCopyId");
+                        .WithMany("MovieRents")
+                        .HasForeignKey("MovieCopyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUser");
 
@@ -399,7 +404,7 @@ namespace VideoClub.Infrastructure.Migrations
 
             modelBuilder.Entity("VideoClub.Core.Entities.ApplicationUser", b =>
                 {
-                    b.Navigation("Reservations");
+                    b.Navigation("MovieRents");
                 });
 
             modelBuilder.Entity("VideoClub.Core.Entities.Movie", b =>
@@ -409,7 +414,7 @@ namespace VideoClub.Infrastructure.Migrations
 
             modelBuilder.Entity("VideoClub.Core.Entities.MovieCopy", b =>
                 {
-                    b.Navigation("Reservations");
+                    b.Navigation("MovieRents");
                 });
 #pragma warning restore 612, 618
         }

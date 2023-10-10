@@ -1,11 +1,11 @@
-﻿@model IEnumerable<VideoClub.Core.Entities.Reservation>
+﻿@model IEnumerable<VideoClub.Core.Entities.MovieRent>
 
 @{
-    ViewBag.Title = "ListActiveReservations";
+    ViewBag.Title = "ListActiveMovieRents";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Active Reservations</h2>
+<h2>Active Movie Rents</h2>
 
 <table class="table">
     <tr>
@@ -53,7 +53,7 @@
             @Html.DisplayFor(modelItem => item.Comments)
         </td>
         <td>
-                <button class="return-button btn btn-dark" data-reservation-id="@item.Id">Return</button>
+                <button class="return-button btn btn-dark" data-movierent-id="@item.Id ">Return</button>
         </td>
     </tr>
 }
@@ -66,14 +66,14 @@
     $(document).ready(function () {
         // Handle the click event of the "Return" buttons
         $('.return-button').click(function () {
-            var reservationId = $(this).data('reservation-id');
+            var rentId = $(this).data('movierent-id');
             var $button = $(this);
 
             // Send the Ajax request to return the movie
             $.ajax({
                 type: 'POST',
-                url: '/Reservations/ReturnMovie', // Replace with the actual URL of your Controller
-                data: { reservationId: reservationId },
+                url: '/MovieRents/ReturnMovie', // Replace with the actual URL of your Controller
+                data: { rentId: rentId },
                 success: function (response) {
                     if (response.success) {
                         // Display a success popup

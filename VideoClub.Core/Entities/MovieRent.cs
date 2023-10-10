@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VideoClub.Core.Entities
 {
-    public class Reservation
+    public class MovieRent
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

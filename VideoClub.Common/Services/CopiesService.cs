@@ -24,8 +24,8 @@ namespace VideoClub.Common.Services
                         .Where(c => c.Movie.Id == movieId);
 
             copies = copies.Where(copy =>
-                        copy.Reservations.All((reservation =>
-                         reservation.To != null && reservation.To < DateTime.Now)) || copy.Reservations.Count == 0);
+                        copy.MovieRents.All((reservation =>
+                         reservation.To != null && reservation.To < DateTime.Now)) || copy.MovieRents.Count == 0);
 
             return copies.FirstOrDefault();
         }

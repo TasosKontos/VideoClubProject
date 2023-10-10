@@ -10,7 +10,7 @@ namespace VideoClub.Core.Interfaces
 {
     public interface ICustomerService
     {
-        IQueryable<CustomerWReservationCount> GetAllCustomersWithReservationCount();
-        IEnumerable<Reservation> GetReservationsForCustomerId (string customerId);
+        IQueryable<CustomerWMovieRentCount> GetAllCustomersWithMovieRentCount();
+        IEnumerable<MovieRent> GetMovieRentsForCustomerId (string customerId);
     }
 }

@@ -16,6 +16,6 @@ namespace VideoClub.Core.Entities
         public string? Surname { get; set; }
         [Required]
         public string? Email { get; set; }
-        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public ICollection<MovieRent> MovieRents { get; set; } = new List<MovieRent>();
     }
 }

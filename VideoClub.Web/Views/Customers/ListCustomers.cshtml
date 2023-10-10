@@ -1,4 +1,4 @@
-﻿@model List<VideoClub.Core.Interfaces.Helpers.CustomerWReservationCount>
+﻿@model List<VideoClub.Core.Interfaces.Helpers.CustomerWMovieRentCount>
 
 <h2>Customers List</h2>
 
@@ -16,10 +16,10 @@
                 Surname
             </th>
             <th>
-                Active Reservations
+                Active Movie Rents
             </th>
             <th>
-                View Reservations
+                View Movie Rents
             </th>
         </tr>
 
@@ -36,13 +36,13 @@
                     @Html.DisplayFor(modelItem => item.customer.Surname)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.activeReservations)
+                    @Html.DisplayFor(modelItem => item.activeMovieRents)
                 </td>
                 <td>
-                    <button type="submit" name="action" value="Reservations:@item.customer.Id" class="btn btn-dark">Reservations</button>
+                    <button type="submit" name="action" value="MovieRents:@item.customer.Id" class="btn btn-dark">Movie Rents</button>
                 </td>
                 <td> 
-                    <button type="submit" name="action" value="Create:@item.customer.Id" class="btn btn-dark">Create a Reservation</button>
+                    <button type="submit" name="action" value="Create:@item.customer.Id" class="btn btn-dark">Create a rent</button>
                 </td>
             </tr>
         }

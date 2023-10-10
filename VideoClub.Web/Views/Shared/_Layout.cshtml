@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - Video Club Application</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/VideoClub.Web.styles.css" asp-append-version="true" />
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
@@ -22,8 +21,8 @@
                     {
                         <li>@Html.ActionLink("Movies", "ListMovies", "Movies", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Customers", "ListCustomers", "Customers", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Active Reservations", "ListActiveReservations", "Reservations", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Reservation History", "ListReservations", "Reservations", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Active Movie Rents", "ListActiveMovieRents", "MovieRents", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Movie Rent History", "ListMovieRents", "MovieRents", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                     else
                     {

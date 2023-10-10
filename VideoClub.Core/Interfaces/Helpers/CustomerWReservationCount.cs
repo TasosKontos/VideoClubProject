@@ -7,9 +7,9 @@ using VideoClub.Core.Entities;
 
 namespace VideoClub.Core.Interfaces.Helpers
 {
-    public class CustomerWReservationCount
+    public class CustomerWMovieRentCount
     {
         public ApplicationUser? customer;
-        public int activeReservations;
+        public int activeMovieRents;
     }
 }

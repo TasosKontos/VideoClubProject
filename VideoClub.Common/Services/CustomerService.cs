@@ -20,7 +20,7 @@ namespace VideoClub.Common.Services
             _db = db;
         }
 
-        public IQueryable<CustomerWReservationCount> GetAllCustomersWithReservationCount()
+        public IQueryable<CustomerWMovieRentCount> GetAllCustomersWithMovieRentCount()
         {
             //var customers = from user in _db.Users
             //                join userRole in _db.UserRoles on user.Id equals userRole.UserId
@@ -36,25 +36,25 @@ namespace VideoClub.Common.Services
                       
 
             var customersWithActiveReservationCount =
-                customers.Select(customer => new CustomerWReservationCount
+                customers.Select(customer => new CustomerWMovieRentCount
                 {
                     customer = customer,
-                    activeReservations = customer.Reservations.Count(reservation =>
+                    activeMovieRents = customer.MovieRents.Count(reservation =>
                         reservation.To == null || reservation.To > DateTime.Now)
                 });
 
             return customersWithActiveReservationCount;
         }
 
-        public IEnumerable<Reservation> GetReservationsForCustomerId(string customerId)
+        public IEnumerable<MovieRent> GetMovieRentsForCustomerId(string customerId)
         {
-            IEnumerable<Reservation> reservations = _db.Users.Where(u => u.Id == customerId).SelectMany(u => u.Reservations).ToList();
-            foreach (var reservation in reservations) {
-                _db.Entry(reservation).Reference(r => r.ApplicationUser).Load();
-                _db.Entry(reservation).Reference(r => r.MovieCopy).Load();
-                _db.Entry(reservation.MovieCopy).Reference(cp => cp.Movie).Load();
+            IEnumerable<MovieRent> rents = _db.Users.Where(u => u.Id == customerId).SelectMany(u => u.MovieRents).ToList();
+            foreach (var rent in rents) {
+                _db.Entry(rent).Reference(r => r.ApplicationUser).Load();
+                _db.Entry(rent).Reference(r => r.MovieCopy).Load();
+                _db.Entry(rent.MovieCopy).Reference(cp => cp.Movie).Load();
             }
-            return reservations;
+            return rents;
         }
 
     }

@@ -14,7 +14,7 @@ namespace VideoClub.Infrastructure.Data
         //public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieCopy> MovieCopies { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<MovieRent> MovieRents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -37,7 +37,7 @@ namespace VideoClub.Web.Controllers
         [HttpPost]
         public ActionResult ListMovies(int movieId)
         {
-            return RedirectToAction("CreateReservationAdmin", "Reservations", new { movieId = movieId });
+            return RedirectToAction("CreateMovieRentAdmin", "MovieRents", new { movieId = movieId });
         }
     }
 }

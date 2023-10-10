@@ -17,7 +17,7 @@ namespace VideoClub.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult ListCustomers()
         {
-            var model = _customerService.GetAllCustomersWithReservationCount().ToList();
+            var model = _customerService.GetAllCustomersWithMovieRentCount().ToList();
             return View(model);
         }
 
@@ -26,13 +26,13 @@ namespace VideoClub.Web.Controllers
         {
             string[] actionParts = action.Split(':');
             var customerId = actionParts[1];
-            if (actionParts[0] == "Reservations")
+            if (actionParts[0] == "MovieRents")
             {
-                return RedirectToAction("ListReservationsForCustomer", "Reservations", new { customerId = customerId });
+                return RedirectToAction("ListMovieRentsForCustomer", "MovieRents", new { customerId = customerId });
             }
             else
             {
-                return RedirectToAction("CreateReservationForCustomer", "Reservations", new { customerId = customerId });
+                return RedirectToAction("CreateMovieRentForCustomer", "MovieRents", new { customerId = customerId });
             }
         }
     }

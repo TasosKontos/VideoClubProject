@@ -1,18 +1,18 @@
-﻿@model VideoClub.Web.Models.ReservationAdminViewModel
+﻿@model VideoClub.Web.Models.MovieRentAdminViewModel
 
 @{
-    ViewBag.Title = "CreateReservationAdmin";
+    ViewBag.Title = "CreateMovieRentAdmin";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create Reservation for: @TempData["Movie Title"] </h2>
+<h2>Create Movie Rent for: @TempData["Movie Title"] </h2>
 
-@using (Html.BeginForm("CreateReservationAdmin", "Reservations", FormMethod.Post)) 
+@using (Html.BeginForm("CreateMovieRentAdmin", "MovieRents", FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>Reservation</h4>
+    <h4>Movie Rent</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
@@ -60,7 +60,7 @@
     <br />
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Submit Reservation" class="btn btn-success" />
+            <input type="submit" value="Submit Movie Rent" class="btn btn-success" />
         </div>
     </div>
 </div>

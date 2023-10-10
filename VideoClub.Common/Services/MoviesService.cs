@@ -40,10 +40,10 @@ namespace VideoClub.Common.Services
             {
                 movie = movie,
                 availableCopyCount = (movie.Copies.Count(copy =>
-                copy.Reservations.All(reservation =>
-                reservation.To != null && reservation.To < DateTime.Now))
+                copy.MovieRents.All(rent =>
+                rent.To != null && rent.To < DateTime.Now))
                 +
-                movie.Copies.Count(copy => copy.Reservations.Count == 0))
+                movie.Copies.Count(copy => copy.MovieRents.Count == 0))
             });
 
             return moviesWithAvailableCopiesCount;
@@ -54,8 +54,8 @@ namespace VideoClub.Common.Services
             var movies = _dbContext.Movies.AsQueryable();
 
             movies = movies.Where(movie => (movie.Copies.Any(copy =>
-                copy.Reservations.All(reservation =>
-                reservation.To != null && reservation.To < DateTime.Now))));
+                copy.MovieRents.All(rent =>
+                rent.To != null && rent.To < DateTime.Now))));
 
             return movies;
         }

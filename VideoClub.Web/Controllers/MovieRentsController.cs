@@ -9,18 +9,18 @@ using VideoClub.Web.Models;
 
 namespace VideoClub.Web.Controllers
 {
-    public class ReservationsController : Controller
+    public class MovieRentsController : Controller
     {
         private readonly IMoviesService _moviesService;
         private readonly ICopiesService _copiesService;
         private readonly IUsersService _usersService;
-        private readonly IReservationService _reservationService;
+        private readonly IRentsService _rentService;
         private readonly ICustomerService _customerService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReservationsController(ICustomerService customerService,IReservationService reservationService,IUsersService usersService,ICopiesService copiesService, IMoviesService moviesService, UserManager<ApplicationUser> userManager)
+        public MovieRentsController(ICustomerService customerService,IRentsService rentService,IUsersService usersService,ICopiesService copiesService, IMoviesService moviesService, UserManager<ApplicationUser> userManager)
         {
-            _reservationService = reservationService;
+            _rentService = rentService;
             _usersService = usersService;
             _moviesService = moviesService;
             _copiesService = copiesService;
@@ -29,14 +29,14 @@ namespace VideoClub.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult CreateReservationAdmin(int movieId)
+        public ActionResult CreateMovieRentAdmin(int movieId)
         {
             var copy = _copiesService.GetAvailableCopyForMovieId(movieId);
 
             var movie = _moviesService.FindMovieById(movieId);
 
             //Tuple<Movie, MovieCopy> model = new Tuple<Movie, MovieCopy>(movie, copy);
-            var model = new ReservationAdminViewModel();
+            var model = new MovieRentAdminViewModel();
             model.MovieId = movieId;
             model.MovieCopyId = copy.Id;
             model.From = DateTime.Now;
@@ -50,92 +50,92 @@ namespace VideoClub.Web.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<ActionResult> CreateReservationAdmin(ReservationAdminViewModel reservation)
+        public async Task<ActionResult> CreateMovieRentAdmin(MovieRentAdminViewModel movRent)
         { 
 
-            var user = await  _userManager.FindByNameAsync(reservation.Username ?? "");
+            var user = await  _userManager.FindByNameAsync(movRent.Username ?? "");
 
             if (user == null)
             {
-                return View(reservation);
+                return View(movRent);
             }
 
             var userInContext = _usersService.GetUserByUsername(user.Id);
 
-            var res = new Reservation();
+            var rent = new MovieRent();
 
-            res.ApplicationUser = userInContext;
+            rent.ApplicationUser = userInContext;
 
-            res.MovieCopy = _copiesService.GetMovieCopyById(reservation.MovieCopyId);
-            res.From = reservation.From;
-            res.To = reservation.To;
-            res.Comments = reservation.Comments;
+            rent.MovieCopy = _copiesService.GetMovieCopyById(movRent.MovieCopyId);
+            rent.From = movRent.From;
+            rent.To = movRent.To;
+            rent.Comments = movRent.Comments;
 
-           _reservationService.AddReservation(res);
+           _rentService.AddMovieRent(rent);
 
             return RedirectToAction("ListMovies", "Movies");
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult CreateReservationForCustomer(string customerId)
+        public ActionResult CreateMovieRentForCustomer(string customerId)
         {
-            var reservation = new Reservation();
+            var rent = new MovieRent();
             var user = _usersService.GetUserById(customerId);
 
-            reservation.ApplicationUser = user;
-            reservation.From = DateTime.Now;
-            reservation.To = DateTime.Now.AddDays(7);
+            rent.ApplicationUser = user;
+            rent.From = DateTime.Now;
+            rent.To = DateTime.Now.AddDays(7);
 
             var availableMovies = _moviesService.GetAvailableMovies();
 
-            ReservationForCustomerViewModel model = new ReservationForCustomerViewModel();
-            model.Reservation = reservation;
+            MovieRentForCustomerViewModel model = new MovieRentForCustomerViewModel();
+            model.MovieRent = rent;
             model.AvailableMovies = availableMovies;
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult CreateReservationForCustomer(ReservationForCustomerViewModel model)
+        public ActionResult CreateMovieRentForCustomer(MovieRentForCustomerViewModel model)
         {
             System.Diagnostics.Debug.WriteLine("selected movie id is " + model.SelectedMovieId);
 
-            var reservation = model.Reservation;
-            reservation.ApplicationUser = _usersService.GetUserById(reservation.ApplicationUser.Id);
+            var rent = model.MovieRent;
+            rent.ApplicationUser = _usersService.GetUserById(rent.ApplicationUser.Id);
             var movieId = model.SelectedMovieId;
-            reservation.MovieCopy =_copiesService.GetAvailableCopyForMovieId(movieId);
-           _reservationService.AddReservation(reservation);
+            rent.MovieCopy =_copiesService.GetAvailableCopyForMovieId(movieId);
+           _rentService.AddMovieRent(rent);
             return RedirectToAction("ListCustomers", "Customers");
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult ListReservationsForCustomer(string customerId)
+        public ActionResult ListMovieRentsForCustomer(string customerId)
         {
-            var model = _customerService.GetReservationsForCustomerId(customerId);
+            var model = _customerService.GetMovieRentsForCustomerId(customerId);
             return View(model);
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult ListActiveReservations()
+        public ActionResult ListActiveMovieRents()
         {
-            var model = _reservationService.GetActiveReservations();
+            var model = _rentService.GetActiveMovieRents();
             return View(model);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult ReturnMovie(int reservationId)
+        public IActionResult ReturnMovie(int rentId)
         {
-           _reservationService.ReturnMovie(reservationId);
+           _rentService.ReturnMovie(rentId);
 
             var result = new { success = true, message = "Successfully returned movie!" };
             return Json(result);
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult ListReservations()
+        public ActionResult ListMovieRents()
         {
-            var model = _reservationService.GetReservations();
+            var model = _rentService.GetMovieRents();
             return View(model);
         }
     }

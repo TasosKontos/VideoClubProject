@@ -47,11 +47,11 @@ namespace VideoClub.Infrastructure.Data
                 };
                 //movies.ForEach(m => db.Movies.Add(m));
 
-                var reservations = new List<Reservation>
+                var rents = new List<MovieRent>
                 {
-                    new Reservation{From=DateTime.Parse("2023-09-26"), To=DateTime.Parse("2023-09-03"), ApplicationUser=user},
-                    new Reservation{From=DateTime.Parse("2023-09-10"), To=DateTime.Parse("2023-09-17"), ApplicationUser = user},
-                    new Reservation{From=DateTime.Parse("2023-09-27"), To=null, ApplicationUser=user}
+                    new MovieRent{From=DateTime.Parse("2023-09-26"), To=DateTime.Parse("2023-09-03"), ApplicationUser=user},
+                    new MovieRent{From=DateTime.Parse("2023-09-10"), To=DateTime.Parse("2023-09-17"), ApplicationUser = user},
+                    new MovieRent{From=DateTime.Parse("2023-09-27"), To=null, ApplicationUser=user}
                 };
                 //reservations.ForEach(r => db.Reservations.Add(r));
 
@@ -63,21 +63,21 @@ namespace VideoClub.Infrastructure.Data
                 };
                 //copies.ForEach(c => db.MovieCopies.Add(c));
 
-                copies[0].Reservations.Add(reservations[0]);
-                copies[1].Reservations.Add(reservations[1]);
-                copies[2].Reservations.Add(reservations[2]);
+                copies[0].MovieRents.Add(rents[0]);
+                copies[1].MovieRents.Add(rents[1]);
+                copies[2].MovieRents.Add(rents[2]);
 
                 movies[0].Copies.Add(copies[0]);
                 movies[0].Copies.Add(copies[1]);
                 movies[0].Copies.Add(copies[2]);
 
                 await db.Movies.AddRangeAsync(movies);
-                await db.Reservations.AddRangeAsync(reservations);
+                await db.MovieRents.AddRangeAsync(rents);
                 await db.MovieCopies.AddRangeAsync(copies);
 
-                user.Reservations.Add(reservations[0]);
-                user.Reservations.Add(reservations[1]);
-                user.Reservations.Add(reservations[2]);
+                user.MovieRents.Add(rents[0]);
+                user.MovieRents.Add(rents[1]);
+                user.MovieRents.Add(rents[2]);
 
             }
 

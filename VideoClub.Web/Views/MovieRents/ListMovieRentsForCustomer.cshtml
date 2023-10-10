@@ -1,11 +1,11 @@
-﻿@model IEnumerable<VideoClub.Core.Entities.Reservation>
+﻿@model IEnumerable<VideoClub.Core.Entities.MovieRent>
 
 @{
-    ViewBag.Title = "ListReservationsForCustomer";
+    ViewBag.Title = "ListMovieRentsForCustomer";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Reservations for @Model.First().ApplicationUser.UserName  </h2>
+<h2>Movie Rents for @Model.First().ApplicationUser.UserName  </h2>
 
 <table class="table">
     <tr>
@@ -13,7 +13,7 @@
             Movie Title
         </th>
         <th>
-            Reservation Date
+            Rent Date
         </th>
         <th>
             Return Date

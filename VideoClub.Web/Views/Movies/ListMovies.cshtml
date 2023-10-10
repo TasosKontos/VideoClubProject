@@ -41,7 +41,7 @@
             @if ((User.Identity.IsAuthenticated && User.IsInRole("Admin")))
             {
                 <th>
-                    Create a Reservation
+                    Create a Movie Rent
                 </th>
             }
 
@@ -67,7 +67,7 @@
                     <td>
                         @if (item.availableCopyCount > 0)
                         {
-                            <button type="submit" name="movieId" value="@item.movie.Id" class="btn btn-dark">Reserve</button>
+                            <button type="submit" name="movieId" value="@item.movie.Id" class="btn btn-dark">Rent</button>
                         }
                     </td>
                 }

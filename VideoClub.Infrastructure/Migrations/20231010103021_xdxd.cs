@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VideoClub.Infrastructure.Migrations
 {
-    public partial class lalal : Migration
+    public partial class xdxd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -191,7 +191,7 @@ namespace VideoClub.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reservations",
+                name: "MovieRents",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -199,33 +199,35 @@ namespace VideoClub.Infrastructure.Migrations
                     From = table.Column<DateTime>(type: "datetime2", nullable: false),
                     To = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Comments = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    MovieCopyId = table.Column<int>(type: "int", nullable: true)
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MovieCopyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.PrimaryKey("PK_MovieRents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservations_AspNetUsers_ApplicationUserId",
+                        name: "FK_MovieRents_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reservations_MovieCopies_MovieCopyId",
+                        name: "FK_MovieRents_MovieCopies_MovieCopyId",
                         column: x => x.MovieCopyId,
                         principalTable: "MovieCopies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9afac448-25f7-4189-acff-0ac6f47dde28", "56c61a01-01b3-4b21-848c-9741be840132", "User", "USER" });
+                values: new object[] { "3bde8e5d-96bb-45d3-b884-1dd9792f8321", "4ab4f0aa-2d2e-476b-a882-6a93b3711081", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d8a80ab6-2524-487a-a76b-cbfb4cf29359", "f6e3501b-77a5-40d2-86ef-a10d2bd4beed", "Admin", "ADMIN" });
+                values: new object[] { "74c920c1-e56c-44ca-a9f7-98f8172ec49d", "2c94d06b-83c0-4754-90d0-8c4c44fe981b", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -272,13 +274,13 @@ namespace VideoClub.Infrastructure.Migrations
                 column: "MovieId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_ApplicationUserId",
-                table: "Reservations",
+                name: "IX_MovieRents_ApplicationUserId",
+                table: "MovieRents",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_MovieCopyId",
-                table: "Reservations",
+                name: "IX_MovieRents_MovieCopyId",
+                table: "MovieRents",
                 column: "MovieCopyId");
         }
 
@@ -300,7 +302,7 @@ namespace VideoClub.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Reservations");
+                name: "MovieRents");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
