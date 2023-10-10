@@ -20,9 +20,8 @@ namespace VideoClub.Common.Services
 
         public MovieCopy GetAvailableCopyForMovieId(int movieId)
         {
-            var copies = from c in _dbContext.MovieCopies
-                         where movieId == c.Movie.Id
-                         select c;
+            var copies = _dbContext.MovieCopies
+                        .Where(c => c.Movie.Id == movieId);
 
             copies = copies.Where(copy =>
                         copy.Reservations.All((reservation =>

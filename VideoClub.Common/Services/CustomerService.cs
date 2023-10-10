@@ -22,11 +22,18 @@ namespace VideoClub.Common.Services
 
         public IQueryable<CustomerWReservationCount> GetAllCustomersWithReservationCount()
         {
-            var customers = from user in _db.Users
-                            join userRole in _db.UserRoles on user.Id equals userRole.UserId
-                            join role in _db.Roles on userRole.RoleId equals role.Id
-                            where role.Name == "User"
-                            select user;
+            //var customers = from user in _db.Users
+            //                join userRole in _db.UserRoles on user.Id equals userRole.UserId
+            //                join role in _db.Roles on userRole.RoleId equals role.Id
+            //                where role.Name == "User"
+            //                select user;
+
+            var customers = _db.Users
+                            .Join(_db.UserRoles, user => user.Id, userRole => userRole.UserId, (user, userRole) => new { user, userRole })
+                            .Join(_db.Roles, ur => ur.userRole.RoleId, role => role.Id, (ur, role) => new { ur.user, role })
+                            .Where(joined => joined.role.Name == "User")
+                            .Select(joined => joined.user);
+                      
 
             var customersWithActiveReservationCount =
                 customers.Select(customer => new CustomerWReservationCount

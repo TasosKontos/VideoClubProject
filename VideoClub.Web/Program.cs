@@ -37,7 +37,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+// builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICopiesService, CopiesService>();
+builder.Services.AddScoped<IReservationService, ReservationsService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IMoviesService, MoviesService>();
 builder.Services.AddScoped<SignInManager<ApplicationUser>>();
 
 var app = builder.Build();
@@ -70,10 +75,9 @@ app.UseEndpoints(endpoints =>
 });
 
 var scope = app.Services.CreateScope();
-var unitOfWork = scope.ServiceProvider.GetService<UnitOfWork>();
 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-await DbInitializer.Initialize(context, userManager, unitOfWork);
+await DbInitializer.Initialize(context, userManager);
 
 app.Run();

@@ -27,8 +27,7 @@ namespace VideoClub.Common.Services
 
         public IEnumerable<Reservation> GetActiveReservations()
         {
-            var reservations = from r in _dbContext.Reservations
-                               select r;
+            var reservations = _dbContext.Reservations.AsQueryable();
 
             reservations = reservations.Where(r => (r.To == null || r.To > DateTime.Now));
             var reservationsList = reservations.ToList();

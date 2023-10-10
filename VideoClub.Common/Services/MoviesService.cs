@@ -24,9 +24,6 @@ namespace VideoClub.Common.Services
         {
             IQueryable<Movie> movies = _dbContext.Movies.AsQueryable();
 
-            movies = from m in _dbContext.Movies
-                     select m;
-
             if (!String.IsNullOrEmpty(titleSearch))
             {
                 movies = movies.Where(m => m.Title.Contains(titleSearch));

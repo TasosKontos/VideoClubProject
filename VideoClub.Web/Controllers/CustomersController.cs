@@ -7,17 +7,17 @@ namespace VideoClub.Web.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICustomerService _customerService;
 
-        public CustomersController(IUnitOfWork unitOfWork)
+        public CustomersController(ICustomerService customerService)
         {
-            _unitOfWork = unitOfWork;
+            _customerService = customerService;
         }
 
         [Authorize(Roles = "Admin")]
         public ActionResult ListCustomers()
         {
-            var model = _unitOfWork.Customer.GetAllCustomersWithReservationCount().ToList();
+            var model = _customerService.GetAllCustomersWithReservationCount().ToList();
             return View(model);
         }
 

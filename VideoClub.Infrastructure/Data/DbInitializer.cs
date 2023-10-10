@@ -13,7 +13,7 @@ namespace VideoClub.Infrastructure.Data
 {
     public static class DbInitializer
     {
-        public static async Task Initialize(ApplicationDbContext db, UserManager<ApplicationUser> userManager, IUnitOfWork _unitOfWork)
+        public static async Task Initialize(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             if (!db.Movies.Any())
             {

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VideoClub.Common.Services;
 using VideoClub.Core.Interfaces;
+using VideoClub.Core.Interfaces.Helpers;
 using VideoClub.Web.Models;
 using X.PagedList;
 
@@ -9,11 +10,11 @@ namespace VideoClub.Web.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly  IUnitOfWork _unitOfWork;
+        private readonly IMoviesService _moviesService;
 
-        public MoviesController(IUnitOfWork unitOfWork)
+        public MoviesController(IMoviesService moviesService)
         {
-            _unitOfWork = unitOfWork;
+            _moviesService = moviesService;
         }
 
         [Authorize(Roles = "Admin, User")]
@@ -21,7 +22,7 @@ namespace VideoClub.Web.Controllers
         {
             SearchModel searchModel = new SearchModel((search ?? ""), (genre ?? ""));
 
-            var moviesWithCount = _unitOfWork.Movie.GetAllMoviesWithCount(searchModel.titleSearch, searchModel.genreFilter);
+            var moviesWithCount = _moviesService.GetAllMoviesWithCount(searchModel.titleSearch, searchModel.genreFilter);
 
 
             int pageSize = 3;
