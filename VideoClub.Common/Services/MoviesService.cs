@@ -49,18 +49,23 @@ namespace VideoClub.Common.Services
             return moviesWithAvailableCopiesCount;
         }
 
-        public IEnumerable<Movie> GetAvailableMovies()
+        public IEnumerable<MovieForView> GetAvailableMovies()
         {
             var movies = _dbContext.Movies.AsQueryable();
 
-            movies = movies.Where(movie => (movie.Copies.Any(copy =>
-                copy.MovieRents.All(rent =>
-                rent.To != null && rent.To < DateTime.Now))));
+            var result = movies
+                .Where(movie => movie.Copies.Any(copy =>
+                    copy.MovieRents.All(rent => rent.To != null && rent.To < DateTime.Now)))
+                .Select(movie => new MovieForView
+                {
+                    Id = movie.Id,
+                    Title = movie.Title
+                });
 
-            return movies;
+            return result.ToList();
         }
 
-        public Movie FindMovieById(int movieId)
+            public Movie FindMovieById(int movieId)
         {
             var movie = _dbContext.Movies.Where(m => m.Id == movieId);
             return movie.FirstOrDefault();

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using VideoClub.Core.Entities;
-using VideoClub.Web.Models;
+using VideoClub.Web.Models.Auth;
 
 namespace VideoClub.Web.Controllers
 {

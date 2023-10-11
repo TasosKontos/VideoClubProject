@@ -14,7 +14,7 @@ namespace VideoClub.Core.Entities
         [Required]
         public string? ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
-        public ApplicationUser ApplicationUser { get; set; } = null!;
+        public ApplicationUser ApplicationUser { get; set; } = null;
         [Required]
         public int MovieCopyId { get; set; }
         [ForeignKey("MovieCopyId")]

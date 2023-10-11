@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using VideoClub.Common.Services;
 using VideoClub.Core.Interfaces;
 using VideoClub.Core.Interfaces.Helpers;
-using VideoClub.Web.Models;
+using VideoClub.Web.Models.Movies;
 using X.PagedList;
 
 namespace VideoClub.Web.Controllers

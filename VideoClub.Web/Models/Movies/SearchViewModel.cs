@@ -1,4 +1,4 @@
-﻿namespace VideoClub.Web.Models
+﻿namespace VideoClub.Web.Models.Movies
 {
     public class SearchViewModel
     {

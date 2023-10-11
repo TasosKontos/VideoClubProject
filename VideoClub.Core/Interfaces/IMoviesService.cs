@@ -11,7 +11,7 @@ namespace VideoClub.Core.Interfaces
     public interface IMoviesService
     {
         IQueryable<MovieWCount> GetAllMoviesWithCount(string titleSearch, string genreFilter);
-        IEnumerable<Movie> GetAvailableMovies();
+        IEnumerable<MovieForView> GetAvailableMovies();
         Movie FindMovieById(int movieId);
     }
 }

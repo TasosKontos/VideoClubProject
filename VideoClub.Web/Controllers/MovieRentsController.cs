@@ -1,16 +1,20 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using VideoClub.Common.Services;
 using VideoClub.Core.Entities;
 using VideoClub.Core.Interfaces;
-using VideoClub.Web.Models;
+using VideoClub.Web.Models.MovieRents;
 
 namespace VideoClub.Web.Controllers
 {
     public class MovieRentsController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly IMoviesService _moviesService;
         private readonly ICopiesService _copiesService;
         private readonly IUsersService _usersService;
@@ -18,7 +22,7 @@ namespace VideoClub.Web.Controllers
         private readonly ICustomerService _customerService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public MovieRentsController(ICustomerService customerService,IRentsService rentService,IUsersService usersService,ICopiesService copiesService, IMoviesService moviesService, UserManager<ApplicationUser> userManager)
+        public MovieRentsController(IMapper mapper, ICustomerService customerService,IRentsService rentService,IUsersService usersService,ICopiesService copiesService, IMoviesService moviesService, UserManager<ApplicationUser> userManager)
         {
             _rentService = rentService;
             _usersService = usersService;
@@ -26,6 +30,7 @@ namespace VideoClub.Web.Controllers
             _copiesService = copiesService;
             _userManager = userManager;
             _customerService = customerService;
+            _mapper = mapper;
         }
 
         [Authorize(Roles = "Admin")]
@@ -35,14 +40,13 @@ namespace VideoClub.Web.Controllers
 
             var movie = _moviesService.FindMovieById(movieId);
 
-            //Tuple<Movie, MovieCopy> model = new Tuple<Movie, MovieCopy>(movie, copy);
             var model = new MovieRentAdminViewModel();
             model.MovieId = movieId;
             model.MovieCopyId = copy.Id;
             model.From = DateTime.Now;
             model.To = DateTime.Now.AddDays(7);
-            //model.Comments = "";
-            //model.Username = "";
+
+
             TempData["Movie Title"] = movie.Title;
 
             return View(model);
@@ -62,14 +66,9 @@ namespace VideoClub.Web.Controllers
 
             var userInContext = _usersService.GetUserByUsername(user.Id);
 
-            var rent = new MovieRent();
+            var rent = _mapper.Map<MovieRent>(movRent ); ;
 
             rent.ApplicationUser = userInContext;
-
-            rent.MovieCopy = _copiesService.GetMovieCopyById(movRent.MovieCopyId);
-            rent.From = movRent.From;
-            rent.To = movRent.To;
-            rent.Comments = movRent.Comments;
 
            _rentService.AddMovieRent(rent);
 
@@ -79,18 +78,20 @@ namespace VideoClub.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult CreateMovieRentForCustomer(string customerId)
         {
-            var rent = new MovieRent();
             var user = _usersService.GetUserById(customerId);
 
-            rent.ApplicationUser = user;
-            rent.From = DateTime.Now;
-            rent.To = DateTime.Now.AddDays(7);
-
-            var availableMovies = _moviesService.GetAvailableMovies();
-
             MovieRentForCustomerViewModel model = new MovieRentForCustomerViewModel();
-            model.MovieRent = rent;
-            model.AvailableMovies = availableMovies;
+
+            model.ApplicationUserId = user.Id;
+            model.UserName = user.UserName;
+            model.From = DateTime.Now;
+            model.To = DateTime.Now.AddDays(7);
+
+            var availMovies =  _moviesService.GetAvailableMovies();
+
+            var selectList = new SelectList(availMovies, "Id", "Title");
+
+            model.AvailableMovies = availMovies;
 
             return View(model);
         }
@@ -98,13 +99,11 @@ namespace VideoClub.Web.Controllers
         [HttpPost]
         public ActionResult CreateMovieRentForCustomer(MovieRentForCustomerViewModel model)
         {
-            System.Diagnostics.Debug.WriteLine("selected movie id is " + model.SelectedMovieId);
 
-            var rent = model.MovieRent;
-            rent.ApplicationUser = _usersService.GetUserById(rent.ApplicationUser.Id);
-            var movieId = model.SelectedMovieId;
-            rent.MovieCopy =_copiesService.GetAvailableCopyForMovieId(movieId);
-           _rentService.AddMovieRent(rent);
+            MovieRent rent = new MovieRent();
+            rent = _mapper.Map<MovieRent>(model);
+            rent.MovieCopy =_copiesService.GetAvailableCopyForMovieId(model.SelectedMovieId);
+            _rentService.AddMovieRent(rent);
             return RedirectToAction("ListCustomers", "Customers");
         }
 
