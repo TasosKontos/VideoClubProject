@@ -20,7 +20,7 @@ namespace VideoClub.Web.Controllers
         [Authorize(Roles = "Admin, User")]
         public ActionResult ListMovies(string genre, string search, int? page)
         {
-            SearchModel searchModel = new SearchModel((search ?? ""), (genre ?? ""));
+            SearchViewModel searchModel = new SearchViewModel((search ?? ""), (genre ?? ""));
 
             var moviesWithCount = _moviesService.GetAllMoviesWithCount(searchModel.titleSearch, searchModel.genreFilter);
 
@@ -32,12 +32,6 @@ namespace VideoClub.Web.Controllers
 
 
             return View(pagedMovies);
-        }
-
-        [HttpPost]
-        public ActionResult ListMovies(int movieId)
-        {
-            return RedirectToAction("CreateMovieRentAdmin", "MovieRents", new { movieId = movieId });
         }
     }
 }

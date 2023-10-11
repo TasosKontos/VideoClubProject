@@ -34,7 +34,7 @@ namespace VideoClub.Web.Controllers
         [HttpGet]
         public ActionResult LogIn(string returnUrl)
         {
-            var model = new LogInModel
+            var model = new LogInViewModel
             {
                 ReturnUrl = returnUrl
             };
@@ -43,7 +43,7 @@ namespace VideoClub.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> LogIn(LogInModel model)
+        public async Task<ActionResult> LogIn(LogInViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace VideoClub.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Register(RegisterModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {

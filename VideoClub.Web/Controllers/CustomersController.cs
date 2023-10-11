@@ -20,20 +20,5 @@ namespace VideoClub.Web.Controllers
             var model = _customerService.GetAllCustomersWithMovieRentCount().ToList();
             return View(model);
         }
-
-        [HttpPost]
-        public ActionResult ListCustomers(string action)
-        {
-            string[] actionParts = action.Split(':');
-            var customerId = actionParts[1];
-            if (actionParts[0] == "MovieRents")
-            {
-                return RedirectToAction("ListMovieRentsForCustomer", "MovieRents", new { customerId = customerId });
-            }
-            else
-            {
-                return RedirectToAction("CreateMovieRentForCustomer", "MovieRents", new { customerId = customerId });
-            }
-        }
     }
 }

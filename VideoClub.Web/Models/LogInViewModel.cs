@@ -1,15 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace VideoClub.Web.Models
 {
-    public class RegisterModel
+    public class LogInViewModel
     {
-        [Required]
-        public string? Name { get; set; }
-
-        [Required]
-        public string? Surname { get; set; }
-
         [Required]
         [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }
@@ -17,5 +12,8 @@ namespace VideoClub.Web.Models
         [Required]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
+
+        [HiddenInput]
+        public string? ReturnUrl { get; set; }
     }
 }

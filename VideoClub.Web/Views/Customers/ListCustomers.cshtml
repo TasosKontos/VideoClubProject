@@ -2,50 +2,47 @@
 
 <h2>Customers List</h2>
 
-@using (Html.BeginForm("ListCustomers", "Customers", FormMethod.Post))
-{
-    <table class="table">
+<table class="table">
+    <tr>
+        <th>
+            UserName
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Active Movie Rents
+        </th>
+        <th>
+            View Movie Rents
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                UserName
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                Surname
-            </th>
-            <th>
-                Active Movie Rents
-            </th>
-            <th>
-                View Movie Rents
-            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.activeMovieRents)
+            </td>
+            <td>
+                @Html.ActionLink("Movie Rents", "ListMovieRentsForCustomer", "MovieRents", new {customerId = item.customer.Id}, new { @class="btn btn-dark"})
+            </td>
+            <td>
+                @Html.ActionLink("Create a Rent", "CreateMovieRentForCustomer", "MovieRents", new {customerId = item.customer.Id}, new { @class="btn btn-dark"})
+            </td>
         </tr>
+    }
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.customer.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.customer.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.customer.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.activeMovieRents)
-                </td>
-                <td>
-                    <button type="submit" name="action" value="MovieRents:@item.customer.Id" class="btn btn-dark">Movie Rents</button>
-                </td>
-                <td> 
-                    <button type="submit" name="action" value="Create:@item.customer.Id" class="btn btn-dark">Create a rent</button>
-                </td>
-            </tr>
-        }
-
-    </table>
-}
+</table>

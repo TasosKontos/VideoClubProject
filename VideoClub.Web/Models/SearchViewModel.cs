@@ -1,11 +1,11 @@
 ﻿namespace VideoClub.Web.Models
 {
-    public class SearchModel
+    public class SearchViewModel
     {
         public string titleSearch;
         public string genreFilter;
 
-        public SearchModel(string titleSearch, string genreFilter)
+        public SearchViewModel(string titleSearch, string genreFilter)
         {
             this.titleSearch = titleSearch;
             this.genreFilter = genreFilter;

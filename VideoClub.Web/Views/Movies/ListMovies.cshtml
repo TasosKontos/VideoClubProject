@@ -22,8 +22,6 @@
     </p>
 }
 
-@using (Html.BeginForm("ListMovies", "Movies", FormMethod.Post))
-{
     <table class="table">
         <tr>
             <th>
@@ -67,7 +65,7 @@
                     <td>
                         @if (item.availableCopyCount > 0)
                         {
-                            <button type="submit" name="movieId" value="@item.movie.Id" class="btn btn-dark">Rent</button>
+                            @Html.ActionLink("Rent", "CreateMovieRentAdmin", "MovieRents", new { movieId = item.movie.Id }, new { @class = "btn btn-dark"})
                         }
                     </td>
                 }
@@ -75,8 +73,9 @@
         }
 
     </table>
-}
+
 <br />
+
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("ListMovies", new {page}))
