@@ -12,8 +12,8 @@ using VideoClub.Infrastructure.Data;
 namespace VideoClub.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231011081447_hihixd")]
-    partial class hihixd
+    [Migration("20231012095653_InitCreate")]
+    partial class InitCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,20 +48,20 @@ namespace VideoClub.Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Roles", "auth");
 
                     b.HasData(
                         new
                         {
-                            Id = "3c63db40-b717-42d4-8ab3-dd279f225fc5",
-                            ConcurrencyStamp = "34f3c7b9-a25d-4e83-bc44-3149dc5860ed",
+                            Id = "d36764d6-fbbd-4f64-9df2-ecf680e1f982",
+                            ConcurrencyStamp = "756b1f49-8c59-402d-9987-9e74ce971cee",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "84b9c9bb-b44c-408b-bafb-5302126e9175",
-                            ConcurrencyStamp = "46c11e0a-e23b-414e-a88f-6001a7e4709d",
+                            Id = "64e606da-3a54-4fcb-be4a-a02164f34ac9",
+                            ConcurrencyStamp = "ae249554-ef22-40d7-99a0-0a8b55c95058",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -89,7 +89,7 @@ namespace VideoClub.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RoleClaims", "auth");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -114,7 +114,7 @@ namespace VideoClub.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("UserClaims", "auth");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -136,7 +136,7 @@ namespace VideoClub.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("UserLogins", "auth");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -151,7 +151,7 @@ namespace VideoClub.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("UserRoles", "auth");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -170,7 +170,7 @@ namespace VideoClub.Infrastructure.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("UserTokens", "auth");
                 });
 
             modelBuilder.Entity("VideoClub.Core.Entities.ApplicationUser", b =>
@@ -244,7 +244,7 @@ namespace VideoClub.Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", "auth");
                 });
 
             modelBuilder.Entity("VideoClub.Core.Entities.Movie", b =>

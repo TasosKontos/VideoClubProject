@@ -110,14 +110,16 @@ namespace VideoClub.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult ListMovieRentsForCustomer(string customerId)
         {
-            var model = _customerService.GetMovieRentsForCustomerId(customerId);
+            var rentList = _customerService.GetMovieRentsForCustomerId(customerId);
+            IEnumerable<ListMovieRentViewModel> model = _mapper.Map<IEnumerable<ListMovieRentViewModel>>(rentList);
             return View(model);
         }
 
         [Authorize(Roles = "Admin")]
         public ActionResult ListActiveMovieRents()
         {
-            var model = _rentService.GetActiveMovieRents();
+            var rentList = _rentService.GetActiveMovieRents();
+            IEnumerable<ListMovieRentViewModel> model = _mapper.Map<IEnumerable<ListMovieRentViewModel>>(rentList);
             return View(model);
         }
 
@@ -134,7 +136,8 @@ namespace VideoClub.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult ListMovieRents()
         {
-            var model = _rentService.GetMovieRents();
+            var rentList = _rentService.GetMovieRents();
+            IEnumerable<ListMovieRentViewModel> model = _mapper.Map<IEnumerable<ListMovieRentViewModel>>(rentList);
             return View(model);
         }
     }

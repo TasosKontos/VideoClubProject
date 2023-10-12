@@ -1,4 +1,4 @@
-﻿@model X.PagedList.IPagedList<VideoClub.Core.Interfaces.Helpers.MovieWCount>
+﻿@model X.PagedList.IPagedList<VideoClub.Web.Models.Movies.ListMovieViewModel>
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
 
@@ -49,13 +49,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.movie.Title)
+                    @Html.DisplayFor(modelItem => item.MovieTitle)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.movie.Genre)
+                    @Html.DisplayFor(modelItem => item.MovieGenre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.movie.Description)
+                    @Html.DisplayFor(modelItem => item.MovieDescription)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.availableCopyCount)
@@ -65,7 +65,7 @@
                     <td>
                         @if (item.availableCopyCount > 0)
                         {
-                            @Html.ActionLink("Rent", "CreateMovieRentAdmin", "MovieRents", new { movieId = item.movie.Id }, new { @class = "btn btn-dark"})
+                            @Html.ActionLink("Rent", "CreateMovieRentAdmin", "MovieRents", new { movieId = item.MovieId }, new { @class = "btn btn-dark"})
                         }
                     </td>
                 }

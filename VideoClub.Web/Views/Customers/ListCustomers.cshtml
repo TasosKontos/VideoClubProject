@@ -1,4 +1,4 @@
-﻿@model List<VideoClub.Core.Interfaces.Helpers.CustomerWMovieRentCount>
+﻿@model List<VideoClub.Web.Models.Customers.ListCustomerViewModel>
 
 <h2>Customers List</h2>
 
@@ -25,22 +25,22 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.customer.UserName)
+                @Html.DisplayFor(modelItem => item.customerUsername)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.customer.Name)
+                @Html.DisplayFor(modelItem => item.customerName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.customer.Surname)
+                @Html.DisplayFor(modelItem => item.customerSurname)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.activeMovieRents)
             </td>
             <td>
-                @Html.ActionLink("Movie Rents", "ListMovieRentsForCustomer", "MovieRents", new {customerId = item.customer.Id}, new { @class="btn btn-dark"})
+                @Html.ActionLink("Movie Rents", "ListMovieRentsForCustomer", "MovieRents", new {customerId = item.customerId}, new { @class="btn btn-dark"})
             </td>
             <td>
-                @Html.ActionLink("Create a Rent", "CreateMovieRentForCustomer", "MovieRents", new {customerId = item.customer.Id}, new { @class="btn btn-dark"})
+                @Html.ActionLink("Create a Rent", "CreateMovieRentForCustomer", "MovieRents", new {customerId = item.customerId}, new { @class="btn btn-dark"})
             </td>
         </tr>
     }

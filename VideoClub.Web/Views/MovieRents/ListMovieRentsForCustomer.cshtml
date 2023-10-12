@@ -1,11 +1,11 @@
-﻿@model IEnumerable<VideoClub.Core.Entities.MovieRent>
+﻿@model IEnumerable<VideoClub.Web.Models.MovieRents.ListMovieRentViewModel>
 
 @{
     ViewBag.Title = "ListMovieRentsForCustomer";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Movie Rents for @Model.First().ApplicationUser.UserName  </h2>
+<h2>Movie Rents for @Model.First().ApplicationUserUsername </h2>
 
 <table class="table">
     <tr>
@@ -27,7 +27,7 @@
 {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.MovieCopy.Movie.Title)
+            @Html.DisplayFor(modelItem => item.MovieCopyMovieTitle)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.From)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VideoClub.Core.Entities.MovieRent>
+﻿@model IEnumerable<VideoClub.Web.Models.MovieRents.ListMovieRentViewModel>
 
 @{
     ViewBag.Title = "ListMovieRents";
@@ -33,13 +33,13 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.MovieCopy.Movie.Title)
+                @Html.DisplayFor(modelItem => item.MovieCopyMovieTitle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MovieCopy.Id)
+                @Html.DisplayFor(modelItem => item.MovieCopyId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+                @Html.DisplayFor(modelItem => item.ApplicationUserUsername)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.From)
